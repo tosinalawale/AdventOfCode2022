@@ -1,6 +1,6 @@
 namespace AdventOfCode2022.Tests
 {
-    using AdventOfCode2022;
+    using AdventOfCode2022.Day02;
 
     public class Day02Part01Tests
     {

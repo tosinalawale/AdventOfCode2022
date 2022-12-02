@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2022
+﻿namespace AdventOfCode2022.Day02
 {
     using System;
     using System.Collections.Generic;
@@ -48,9 +48,9 @@
 
         private static bool SecondShapeWins(Shape handShapeA, Shape handShapeB)
         {
-            return (handShapeB == Shape.Rock && handShapeA == Shape.Scissors) ||
-                (handShapeB == Shape.Scissors && handShapeA == Shape.Paper) ||
-                (handShapeB == Shape.Paper && handShapeA == Shape.Rock);
+            return handShapeB == Shape.Rock && handShapeA == Shape.Scissors ||
+                handShapeB == Shape.Scissors && handShapeA == Shape.Paper ||
+                handShapeB == Shape.Paper && handShapeA == Shape.Rock;
         }
 
         private static int GetScoreForShape(Shape shape) => shape switch
@@ -60,12 +60,5 @@
             Shape.Scissors => 3,
             _ => throw new ArgumentOutOfRangeException(nameof(shape), $"Unexpected shape value: {shape}")
         };
-    }
-
-    internal enum Shape
-    {
-        Rock,
-        Paper,
-        Scissors
     }
 }
