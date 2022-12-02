@@ -6,9 +6,9 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class Day02
+    public class Day02Part01
     {
-        public static int CalculateResultForPartOne(string[] input)
+        public static int CalculateResult(string[] input)
         {
             return input.Sum(x => CalculateScore(x));
         }
