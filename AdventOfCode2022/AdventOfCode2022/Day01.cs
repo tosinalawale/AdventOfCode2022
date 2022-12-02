@@ -6,6 +6,20 @@
     {
         public static int CalculateResultForPartOne(string[] input)
         {
+            var elfCalorieTotals = CalculateElfCalorieTotals(input);
+
+            return elfCalorieTotals.Max();
+        }
+
+        public static int CalculateResultForPartTwo(string[] input)
+        {
+            var elfCalorieTotals = CalculateElfCalorieTotals(input);
+
+            return elfCalorieTotals.OrderByDescending(x => x).Take(3).Sum();
+        }
+
+        private static List<int> CalculateElfCalorieTotals(string[] input)
+        {
             var currentSum = 0;
             var elfCalorieTotals = new List<int>();
 
@@ -21,7 +35,10 @@
                 currentSum += int.Parse(line);
             }
 
-            return elfCalorieTotals.Max();
+            //need this if input doesn't end with a blank line
+            if (currentSum > 0) elfCalorieTotals.Add(currentSum);
+
+            return elfCalorieTotals;
         }
     }
 }
