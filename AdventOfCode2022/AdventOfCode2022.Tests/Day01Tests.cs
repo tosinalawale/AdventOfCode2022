@@ -1,7 +1,6 @@
 namespace AdventOfCode2022.Tests
 {
     using AdventOfCode2022;
-    using FluentAssertions;
 
     public class Day01Tests
     {
