@@ -1,6 +1,6 @@
-namespace AdventOfCode2022.Tests
+namespace AdventOfCode2022.Tests.Day01
 {
-    using AdventOfCode2022;
+    using AdventOfCode2022.Day01;
 
     public class Day01Tests
     {
@@ -32,7 +32,7 @@ namespace AdventOfCode2022.Tests
         public void Part1_CalculateResult()
         {
             var input = File.ReadAllLines(@"Input/input01.txt");
-            System.Console.WriteLine(Day01.CalculateResultForPartOne(input));
+            Console.WriteLine(Day01.CalculateResultForPartOne(input));
         }
 
         [Test]
@@ -63,7 +63,7 @@ namespace AdventOfCode2022.Tests
         public void Part2_CalculateResult()
         {
             var input = File.ReadAllLines(@"Input/input01.txt");
-            System.Console.WriteLine(Day01.CalculateResultForPartTwo(input));
+            Console.WriteLine(Day01.CalculateResultForPartTwo(input));
         }
     }
 }

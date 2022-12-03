@@ -1,4 +1,4 @@
-﻿namespace AdventOfCode2022
+﻿namespace AdventOfCode2022.Day01
 {
     using System;
 
