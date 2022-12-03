@@ -7,15 +7,8 @@
         public static int CalculateResult(string[] input)
         {
             return input.Select(r => FindItemInBothCompartments(r))
-                .Select(i => ToItemPriority(i))
+                .Select(i => ItemPriorityConverter.ToItemPriority(i))
                 .Sum();
-        }
-
-        public static int ToItemPriority(string item)
-        {
-            var asciiCode = (int)char.Parse(item);
-
-            return (asciiCode >= 97) ? asciiCode - 96 : asciiCode - 38;
         }
 
         private static string FindItemInBothCompartments(string rucksackContents)

@@ -10,7 +10,7 @@ namespace AdventOfCode2022.Tests.Day03
         [TestCase("Z",52)]
         public void CanConvertItemToItemPriority(string item, int expectedItemPriority) 
         {
-            Day03Part01.ToItemPriority(item).Should().Be(expectedItemPriority);
+            AdventOfCode2022.Day03.ItemPriorityConverter.ToItemPriority(item).Should().Be(expectedItemPriority);
         }
 
         [Test]
