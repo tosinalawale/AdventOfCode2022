@@ -28,7 +28,7 @@ namespace AdventOfCode2022.Tests.Day05
                 new Stack(new[] { 'P'})
             };
 
-            var stacks = Day05Part01.BuildStacksFromInput(input, 4);
+            var stacks = StackBuilder.BuildStacksFromInput(input, 4);
             stacks.Should().BeEquivalentTo(expectedStacks);
         }
 
