@@ -6,11 +6,11 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class Day04Part01
+    public class Day04Part02
     {
         public static int CalculateResult(string[] input)
         {
-            var fullyContainedSections = 0;
+            var overlappingSections = 0;
 
             foreach (var line in input)
             {
@@ -18,14 +18,13 @@
                 var firstSection = new Section(pair[0]);
                 var secondSection = new Section(pair[1]);
 
-                if (firstSection.IsFullyContainedIn(secondSection) ||
-                    secondSection.IsFullyContainedIn(firstSection))
+                if (firstSection.Overlaps(secondSection))
                 {
-                    fullyContainedSections++;
+                    overlappingSections++;
                 }
             }
 
-            return fullyContainedSections;
+            return overlappingSections;
         }
     }
 }
