@@ -10,7 +10,7 @@
     {
         public static int CalculateResult(string[] input)
         {
-            var treeGrid = BuildTreeGrid(input);
+            var treeGrid = TreeElementGrid.Create(input);
             var visibleTreeCount = 0;
 
             for (int j = 0; j < input.Length; j++)
@@ -105,21 +105,6 @@
             }
 
             return Math.Max(treeGrid[j][i+1].Height, GetMaxHeightFromRight(treeGrid, i+1, j));
-        }
-
-        private static TreeElement[][] BuildTreeGrid(string[] input)
-        {
-            var treeGrid = new TreeElement[input.Length][];
-            for (int i = 0; i < input.Length; i++)
-            {
-                treeGrid[i] = input[i].Select(c => 
-                    new TreeElement {
-                        Height = int.Parse(c.ToString()) 
-                    })
-                    .ToArray();
-            }
-
-            return treeGrid;
         }
     }
 }
