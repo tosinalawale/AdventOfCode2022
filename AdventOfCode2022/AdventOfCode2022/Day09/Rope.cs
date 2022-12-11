@@ -21,7 +21,7 @@
             var moveParts = move.Split(' ');
             var direction = moveParts[0];
             var times = int.Parse(moveParts[1]);
-            switch (moveParts[0])
+            switch (direction)
             {
                 case "U":
                     for (int i = 0; i < times; i++)
