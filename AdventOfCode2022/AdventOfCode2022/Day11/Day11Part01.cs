@@ -25,7 +25,6 @@
                 {
                     for (int k = 0; k < monkeys[j].StartingItems.Count; k++)
                     {
-                        //inspect item
                         monkeys[j].StartingItems[k] = monkeys[j].Operation(monkeys[j].StartingItems[k]);
 
                         monkeys[j].StartingItems[k] = (int)Math.Floor(monkeys[j].StartingItems[k] / 3d);
@@ -43,7 +42,6 @@
                     monkeys[j].StartingItems.Clear();
                 }
             }
-
 
             return monkeys;
         }
