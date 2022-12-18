@@ -1,7 +1,6 @@
 namespace AdventOfCode2022.Tests.Day11
 {
     using AdventOfCode2022.Day11;
-    using System.Security.Cryptography;
 
     public class Day11Part01Tests
     {

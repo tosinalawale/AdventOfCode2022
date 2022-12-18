@@ -3,12 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Numerics;
 
-    public class Day11Part01
+    public class Day11Part02
     {
         public static long CalculateResult(string[] input)
         {
-            var monkeys = SimulateRounds(input, 20);
+            var monkeys = SimulateRounds(input, 10000);
 
             return monkeys.Select(m => m.NumberOfInspections).OrderDescending().Take(2).Aggregate((a, b) => a * b);
         }
@@ -16,6 +17,8 @@
         public static List<Monkey> SimulateRounds(string[] input, int rounds)
         {
             var monkeys = CreateMonkeys(input);
+
+            var productOfAllDivisors = GetProductOfAllDivisors(input);
 
             for (int i = 0; i < rounds; i++)
             {
@@ -25,7 +28,10 @@
                     {
                         monkeys[j].StartingItems[k] = monkeys[j].Operation(monkeys[j].StartingItems[k]);
 
-                        monkeys[j].StartingItems[k] = (int)Math.Floor(monkeys[j].StartingItems[k] / 3d);
+                        // transforming the number to the modulus/remainder from
+                        // dividing it by the product of all the values that we test for divisibility
+                        // keeps the number small while preserving it's divisibility property
+                        monkeys[j].StartingItems[k] = monkeys[j].StartingItems[k] % productOfAllDivisors;
 
                         if (monkeys[j].Test(monkeys[j].StartingItems[k]))
                         {
@@ -36,12 +42,30 @@
                             monkeys[monkeys[j].FalseMonkey].StartingItems.Add(monkeys[j].StartingItems[k]);
                         }
                     }
+
                     monkeys[j].NumberOfInspections += monkeys[j].StartingItems.Count;
+
                     monkeys[j].StartingItems.Clear();
                 }
             }
 
             return monkeys;
+        }
+
+        private static int GetProductOfAllDivisors(string[] input)
+        {
+            var divisors = new List<int>();
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i].Contains("Test: divisible by "))
+                {
+                    var divisor = input[i].Replace("Test: divisible by ", "");
+                    divisors.Add(int.Parse(divisor));
+                }
+            }
+
+            return divisors.Aggregate((a, b) => a * b);
         }
 
         private static List<Monkey> CreateMonkeys(string[] input)
@@ -79,7 +103,7 @@
         {
             var number = long.Parse(s.Replace("Test: divisible by ", ""));
 
-            return (x => x % number == 0);
+            return x => x % number == 0;
         }
 
         private static Func<long, long> GetOperation(string s)
