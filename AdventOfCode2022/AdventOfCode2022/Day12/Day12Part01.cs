@@ -1,15 +1,28 @@
 ﻿namespace AdventOfCode2022.Day12
 {
-    using System;
     using System.Collections.Generic;
 
     public class Day12Part01
     {
         public static int CalculateResult(string[] input)
         {
-            var (grid, startPosition) = CreateMapGrid(input);
+            var grid = CreateMapGrid(input);
+            var startPosition = GetStartingPosition(input);
 
             return FindShortestStepsToDestinationPosition(grid, startPosition);
+        }
+
+        private static (int y, int x) GetStartingPosition(string[] input)
+        {
+            for (int x = 0; x < input[0].Length; x++)
+            {
+                for (int y = 0; y < input.Length; y++)
+                {
+                    if (input[y][x].Equals('S')) return (y, x);
+                }
+            }
+
+            return (0, 0);
         }
 
         private static int FindShortestStepsToDestinationPosition(GridElement[,] grid, (int y, int x) startPosition)
@@ -72,16 +85,14 @@
             return grid[nextPosition.y, nextPosition.x].Height - grid[currentPosition.y, currentPosition.x].Height <= 1;
         }
 
-        private static (GridElement[,], (int y, int x)) CreateMapGrid(string[] input)
+        private static GridElement[,] CreateMapGrid(string[] input)
         {
             var mapGrid = new GridElement[input.Length, input[0].Length];
-            var startPosition = (y : -1, x : -1);
 
             for (int j = 0; j < input.Length; j++)
             {
                 for (int i = 0; i < input[0].Length; i++)
                 {
-                    var isStartPosition = false;
                     var isGoalPosition = false;
                     int height;
 
@@ -89,7 +100,6 @@
                     {
                         case 'S':
                             height = (int)'a';
-                            isStartPosition = true;
                             break;
                         case 'E':
                             height = (int)'z';
@@ -103,15 +113,12 @@
                     mapGrid[j, i] = new GridElement
                     {
                         Height = height, 
-                        IsStartPosition = isStartPosition, 
                         IsGoalPosition = isGoalPosition
                     };
-
-                    if (mapGrid[j,i].IsStartPosition) startPosition = (y: j, x: i);
                 }
             }
 
-            return (mapGrid, startPosition);
+            return mapGrid;
         }
     }
 }
