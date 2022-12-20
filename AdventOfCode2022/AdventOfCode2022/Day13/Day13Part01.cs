@@ -40,7 +40,7 @@
                 }
             }
 
-            return true;
+            return results;
         }
     }
 }
