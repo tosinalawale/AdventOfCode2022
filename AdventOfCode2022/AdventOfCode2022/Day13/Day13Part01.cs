@@ -9,7 +9,15 @@
 
         public static int Compare(string left, string right)
         {
-            throw new NotImplementedException();
+            var leftPacket = new PacketElement(left);
+            var rightPacket = new PacketElement(right);
+
+            if (leftPacket.Value.HasValue && rightPacket.Value.HasValue)
+            {
+                return leftPacket.Value <= rightPacket.Value ? 1 : 0;
+            }
+
+            return -1;
         }
     }
 }
