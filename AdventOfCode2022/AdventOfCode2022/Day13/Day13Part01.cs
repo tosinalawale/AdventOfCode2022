@@ -21,12 +21,13 @@
                 return leftPacket.Value <= rightPacket.Value;
             }
 
+            var leftElements = leftPacket.Elements;
+            var rightElements = rightPacket.Elements;
 
-            var results = true;
-            if (leftPacket.Elements != null && rightPacket.Elements != null)
+            if (leftElements != null && rightElements != null)
             {
-                var leftElements = leftPacket.Elements;
-                var rightElements = rightPacket.Elements;
+                var results = true;
+
                 for (int i = 0; i < leftElements.Count; i++)
                 {
                     try
@@ -38,9 +39,17 @@
                         return false;
                     }
                 }
+                return results;
             }
 
-            return results;
+            if (leftElements == null)
+            {
+                return ComparePackets(new PacketElement("[" + leftPacket.Value + "]"), rightPacket);
+            }
+            else
+            {
+                return ComparePackets(leftPacket, new PacketElement("[" + rightPacket.Value + "]"));
+            }
         }
     }
 }
