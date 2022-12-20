@@ -1,5 +1,6 @@
 ﻿namespace AdventOfCode2022.Day13
 {
+    using System;
     using System.Collections.Generic;
 
     public class PacketElement
@@ -22,12 +23,34 @@
             }
 
             Elements = new List<PacketElement>();
-            var packetContents = packet.Substring(1, packet.Length - 2).Split(",");
+            var packetContents = SplitElements(packet.Substring(1, packet.Length - 2));
 
             foreach (var element in packetContents)
             {
                 Elements.Add(new PacketElement(element));
             }
+        }
+
+        private List<string> SplitElements(string v)
+        {
+            var stack = new Stack<char>();
+            var elements = new List<string>();
+            var previousSplitPosition = 0;
+
+            for (int i = 0; i < v.Length; i++)
+            {
+                if (v[i].Equals(',') && stack.Count == 0) 
+                {
+                    elements.Add(v[previousSplitPosition..i]);
+                    previousSplitPosition = i + 1;
+                }
+                else if (v[i].Equals('[')) { stack.Push(v[i]); }
+                else if (v[i].Equals(']')) { stack.Pop(); }
+            }
+
+            elements.Add(v.Substring(previousSplitPosition));
+
+            return elements;
         }
 
         public object? Contents()

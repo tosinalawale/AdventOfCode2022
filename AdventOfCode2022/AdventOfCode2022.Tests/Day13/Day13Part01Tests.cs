@@ -14,6 +14,16 @@ namespace AdventOfCode2022.Tests.Day13
             new PacketElement(packet).Contents().Should().BeEquivalentTo(expectedParsedPacket);
         }
 
+        [Test]
+        public void CanParsePacket2()
+        {
+            var packet = "[[1],[2,3,4]]";
+
+            var expectedParsedPacket = new[] { new[] { 1 }, new[] { 2, 3, 4 } };
+
+            new PacketElement(packet).Contents().Should().BeEquivalentTo(expectedParsedPacket);
+        }
+
         [TestCase("[1,1,3,1,1]", "[1,1,5,1,1]", 1)]
         public void CanComparePairOfPackets(string left, string right, int expectedResult)
         {
