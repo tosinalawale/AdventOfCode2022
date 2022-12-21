@@ -4,7 +4,15 @@
     {
         public static int CalculateResult(string[] input)
         {
-            throw new NotImplementedException();
+            var pairsInCorrectOrder = new List<int>();
+
+            for (int i = 0; i < input.Length; i += 3)
+            {
+                var result = Compare(input[i], input[i + 1]);
+                if (result == 1) pairsInCorrectOrder.Add((i / 3) + 1);
+            }
+
+            return pairsInCorrectOrder.Sum();
         }
 
         public static int Compare(string left, string right)
