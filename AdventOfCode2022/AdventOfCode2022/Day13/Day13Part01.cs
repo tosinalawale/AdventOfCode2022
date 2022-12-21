@@ -11,14 +11,14 @@
         {
             var leftPacket = new PacketElement(left);
             var rightPacket = new PacketElement(right);
-            return ComparePackets(leftPacket, rightPacket) ? 1 : 0;
+            return ComparePackets(leftPacket, rightPacket) <= 0 ? 1 : 0;
         }
 
-        private static bool ComparePackets(PacketElement leftPacket, PacketElement rightPacket)
+        private static int ComparePackets(PacketElement leftPacket, PacketElement rightPacket)
         {
-            if (leftPacket.Value.HasValue && rightPacket.Value.HasValue)
+            if (leftPacket.Number.HasValue && rightPacket.Number.HasValue)
             {
-                return leftPacket.Value <= rightPacket.Value;
+                return leftPacket.Number.Value.CompareTo(rightPacket.Number);
             }
 
             var leftElements = leftPacket.Elements;
@@ -26,29 +26,30 @@
 
             if (leftElements != null && rightElements != null)
             {
-                var results = true;
+                var result = 0;
 
                 for (int i = 0; i < leftElements.Count; i++)
                 {
                     try
                     {
-                        results = results && ComparePackets(leftElements[i], rightElements[i]);
+                        result = ComparePackets(leftElements[i], rightElements[i]);
+                        if (result != 0) break;
                     }
-                    catch (Exception)
+                    catch (ArgumentOutOfRangeException)
                     {
-                        return false;
+                        return 1;
                     }
                 }
-                return results;
+                return result;
             }
 
             if (leftElements == null)
             {
-                return ComparePackets(new PacketElement("[" + leftPacket.Value + "]"), rightPacket);
+                return ComparePackets(new PacketElement("[" + leftPacket.Number + "]"), rightPacket);
             }
             else
             {
-                return ComparePackets(leftPacket, new PacketElement("[" + rightPacket.Value + "]"));
+                return ComparePackets(leftPacket, new PacketElement("[" + rightPacket.Number + "]"));
             }
         }
     }

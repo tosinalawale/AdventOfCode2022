@@ -5,7 +5,7 @@
 
     public class PacketElement
     {
-        public int? Value { get; set; }
+        public int? Number { get; set; }
         public List<PacketElement>? Elements { get; set; }
 
         public PacketElement(string packet)
@@ -18,7 +18,7 @@
 
             if (!packet[0].Equals('['))
             {
-                Value = int.Parse(packet);
+                Number = int.Parse(packet);
                 return;
             }
 
@@ -55,7 +55,7 @@
 
         public object? Contents()
         {
-            if (Value.HasValue) { return Value.Value; }
+            if (Number.HasValue) { return Number.Value; }
 
             if (Elements != null) { return Elements.Select(e => e.Contents()).ToList(); }
 
