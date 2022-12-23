@@ -22,7 +22,7 @@
             return ComparePackets(leftPacket, rightPacket) <= 0 ? 1 : 0;
         }
 
-        private static int ComparePackets(PacketElement leftPacket, PacketElement rightPacket)
+        public static int ComparePackets(PacketElement leftPacket, PacketElement rightPacket)
         {
             if (leftPacket.Number.HasValue && rightPacket.Number.HasValue)
             {

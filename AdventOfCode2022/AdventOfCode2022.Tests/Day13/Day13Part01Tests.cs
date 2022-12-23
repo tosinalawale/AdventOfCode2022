@@ -34,17 +34,17 @@ namespace AdventOfCode2022.Tests.Day13
             new PacketElement(packet).Contents().Should().BeEquivalentTo(expectedParsedPacket);
         }
 
-        [TestCase("1", "2", 1)]
-        [TestCase("2", "1", 0)]
-        [TestCase("[1,1,3,1,1]", "[1,1,3]", 0)]
-        [TestCase("[1,1,4,1,1]", "[1,1,3]", 0)]
-        [TestCase("[1,1,3]", "[1,1,3,1,1]", 1)]
-        [TestCase("[1,1,3,1,1]", "[1,1,5,1,1]", 1)]
-        [TestCase("[[4,3,4]]", "[2]", 0)]
-        [TestCase("[[2,3,4]]", "[4]", 1)]
+        [TestCase("1", "2", -1)]
+        [TestCase("2", "1", 1)]
+        [TestCase("[1,1,3,1,1]", "[1,1,3]", 1)]
+        [TestCase("[1,1,4,1,1]", "[1,1,3]", 1)]
+        [TestCase("[1,1,3]", "[1,1,3,1,1]", -1)]
+        [TestCase("[1,1,3,1,1]", "[1,1,5,1,1]", -1)]
+        [TestCase("[[4,3,4]]", "[2]", 1)]
+        [TestCase("[[2,3,4]]", "[4]", -1)]
         public void CanComparePairOfPackets(string left, string right, int expectedResult)
         {
-            Day13Part01.Compare(left, right).Should().Be(expectedResult);
+            Day13Part01.ComparePackets(new PacketElement(left), new PacketElement(right)).Should().Be(expectedResult);
         }
 
         [Test]
