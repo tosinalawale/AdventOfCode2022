@@ -35,13 +35,14 @@
             if (leftElements != null && rightElements != null)
             {
                 var result = 0;
-
+                
                 for (int i = 0; i < leftElements.Count; i++)
                 {
                     try
                     {
                         result = ComparePackets(leftElements[i], rightElements[i]);
                         if (result != 0) break;
+                        if (i == leftElements.Count - 1 && leftElements.Count < rightElements.Count) return -1;
                     }
                     catch (ArgumentOutOfRangeException)
                     {
