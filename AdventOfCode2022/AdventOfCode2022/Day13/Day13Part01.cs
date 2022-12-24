@@ -36,21 +36,21 @@
             {
                 var result = 0;
 
-                if (leftElements.Count == 0 && rightElements.Count > 0) return -1;
-
                 for (int i = 0; i < leftElements.Count; i++)
                 {
                     try
                     {
                         result = ComparePackets(leftElements[i], rightElements[i]);
                         if (result != 0) break;
-                        if (i == leftElements.Count - 1 && leftElements.Count < rightElements.Count) return -1;
                     }
                     catch (ArgumentOutOfRangeException)
                     {
                         return 1;
                     }
                 }
+
+                if (result == 0 && leftElements.Count < rightElements.Count) return -1;
+
                 return result;
             }
 
