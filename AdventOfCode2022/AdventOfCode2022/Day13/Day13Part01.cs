@@ -35,7 +35,9 @@
             if (leftElements != null && rightElements != null)
             {
                 var result = 0;
-                
+
+                if (leftElements.Count == 0 && rightElements.Count > 0) return -1;
+
                 for (int i = 0; i < leftElements.Count; i++)
                 {
                     try

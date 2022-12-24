@@ -43,6 +43,7 @@ namespace AdventOfCode2022.Tests.Day13
         [TestCase("[[4,3,4]]", "[2]", 1)]
         [TestCase("[[2,3,4]]", "[4]", -1)]
         [TestCase("[[2]]", "[2,3]", -1)]
+        [TestCase("[[]]", "[[2]]", -1)]
         public void CanComparePairOfPackets(string left, string right, int expectedResult)
         {
             Day13Part01.ComparePackets(new PacketElement(left), new PacketElement(right)).Should().Be(expectedResult);
