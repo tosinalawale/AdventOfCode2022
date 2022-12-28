@@ -4,9 +4,9 @@ namespace AdventOfCode2022.Tests.Day15
 
     public class Day15Part01Tests
     {
-        [TestCase("Sensor at x=2, y=2: closest beacon is at x=4, y=5", 60)]
-        [TestCase("Sensor at x=8, y=7: closest beacon is at x=2, y=10", 180)]
-        public void CalculateNumberOfPositionsWithoutBeaconsForSingleSensor(string sensorInput, int expectedNumberOfPositions)
+        [TestCase("Sensor at x=2, y=2: closest beacon is at x=4, y=5", 2, 11)]
+        [TestCase("Sensor at x=2, y=2: closest beacon is at x=4, y=5", 7, 1)]
+        public void CalculateNumberOfPositionsWithoutBeaconsForSingleSensor(string sensorInput, int row, int expectedNumberOfPositions)
         {
             var input = new[]
             {
@@ -19,9 +19,10 @@ namespace AdventOfCode2022.Tests.Day15
             //(4 * 5/2)*4 + 5*4 = 60
             // -1 for the nearest beacon's position (B) = 59
             // +1 for the sensor's position = 60
-            //so formula is: n(n + 1)/2 * 4 + n*4
+            //so formula for all positions with no beacons is: n(n + 1)/2 * 4 + n*4
+            //where n is the manhattan distance to nearest beacon
 
-            Day15Part01.GetNumberOfPositionsWithoutBeacons(input).Should().Be(expectedNumberOfPositions);
+            Day15Part01.GetNumberOfPositionsWithoutBeaconsOnRow(input, row).Should().Be(expectedNumberOfPositions);
         }
 
         [Test]
@@ -45,7 +46,7 @@ namespace AdventOfCode2022.Tests.Day15
                 "Sensor at x=20, y=1: closest beacon is at x=15, y=3",
             };
 
-            Day15Part01.CalculateResult(input).Should().Be(26);
+            Day15Part01.GetNumberOfPositionsWithoutBeaconsOnRow(input, 10).Should().Be(26);
         }
 
         [Test]
