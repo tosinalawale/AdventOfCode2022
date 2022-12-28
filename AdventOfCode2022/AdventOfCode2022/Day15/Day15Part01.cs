@@ -36,16 +36,19 @@
                     grid.TryAdd(beaconCoords, 'B'); 
                 }
 
-                MarkPositionsWithNoBeaconOnRow(grid, sensorCoords, beaconCoords, row);
+                int manhattanDistance = ManhattanDistance(sensorCoords, beaconCoords);
+
+                if (sensorCoords.y - manhattanDistance <= row && row <= sensorCoords.y + manhattanDistance)
+                {
+                    MarkPositionsWithNoBeaconOnRow(grid, sensorCoords, manhattanDistance, row); 
+                }
             }
 
             return grid;
         }
 
-        private static void MarkPositionsWithNoBeaconOnRow(Dictionary<(int x, int y), char> grid, (int x, int y) sensorCoords, (int x, int y) beaconCoords, int row)
+        private static void MarkPositionsWithNoBeaconOnRow(Dictionary<(int x, int y), char> grid, (int x, int y) sensorCoords, int manhattanDistance, int row)
         {
-            var manhattanDistance = Math.Abs(beaconCoords.x - sensorCoords.x) + Math.Abs(beaconCoords.y - sensorCoords.y);
-
             var permutations = GetPermutations(manhattanDistance);
 
             foreach (var (x, y) in permutations)
@@ -58,6 +61,11 @@
                     }
                 }
             }
+        }
+
+        private static int ManhattanDistance((int x, int y) sensorCoords, (int x, int y) beaconCoords)
+        {
+            return Math.Abs(beaconCoords.x - sensorCoords.x) + Math.Abs(beaconCoords.y - sensorCoords.y);
         }
 
         private static HashSet<(int x, int y)> GetPermutations(int manhattanDistance)
