@@ -13,15 +13,6 @@ namespace AdventOfCode2022.Tests.Day15
                 sensorInput,
             };
 
-            //for a manhattan distance of 5
-            //(4 + 4, 3 + 3, ... 1 + 1) * 4
-            //5 * 4
-            //(4 * 5/2)*4 + 5*4 = 60
-            // -1 for the nearest beacon's position (B) = 59
-            // +1 for the sensor's position = 60
-            //so formula for all positions with no beacons is: n(n + 1)/2 * 4 + n*4
-            //where n is the manhattan distance to nearest beacon
-
             Day15Part01.GetNumberOfPositionsWithoutBeaconsOnRow(input, row).Should().Be(expectedNumberOfPositions);
         }
 

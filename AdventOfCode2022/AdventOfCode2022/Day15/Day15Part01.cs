@@ -1,19 +1,30 @@
 ﻿namespace AdventOfCode2022.Day15
 {
+    using System.Collections.Generic;
+
     public class Day15Part01
     {
         public static int CalculateResult(string[] input)
         {
-            //var grid = CreateGridFromInput(input, 10);
-
-            //return grid.Keys.Where(k => !grid[(k.x, k.y)].Equals('B')).Count();
-
             return GetNumberOfPositionsWithoutBeaconsOnRow(input, 2000000);
         }
 
-        private static Dictionary<(int x, int y), char> CreateGridFromInput(string[] input, int row)
+        private static int ManhattanDistance((int x, int y) sensorCoords, (int x, int y) beaconCoords)
         {
-            var grid = new Dictionary<(int x, int y), char>();
+            return Math.Abs(beaconCoords.x - sensorCoords.x) + Math.Abs(beaconCoords.y - sensorCoords.y);
+        }
+
+        public static int GetNumberOfPositionsWithoutBeaconsOnRow(string[] input, int row)
+        {
+            var positionsWithNoBeacons = GetCellRangesWithNoBeacon(input, row);
+
+            return positionsWithNoBeacons.Count;
+        }
+
+        private static HashSet<int> GetCellRangesWithNoBeacon(string[] input, int row)
+        {
+            var beaconPositions = new HashSet<int>();
+            var positionsWithNoBeacons = new HashSet<int>();
 
             foreach (var line in input)
             {
@@ -25,69 +36,34 @@
                 var sensorCoords = (x: int.Parse(sensorParts[0]), y: int.Parse(sensorParts[1]));
                 var beaconCoords = (x: int.Parse(beaconParts[0]), y: int.Parse(beaconParts[1]));
 
-                if (sensorCoords.y == row)
+                //e.g. for "Sensor at x=2, y=2: closest beacon is at x=4, y=5"
+                //if required row is 7
+                //absolute y distance of row to sensor (n) is 7 - 2 = 5
+                //manhattan distance (m) = 5
+                //no of positions with no beacons:
+                //if distance to sensor is 1 : 1 + (m - 1)*2
+                //if distance to sensor is 2 : 1 + (m - 2)*2
+                //if distance to sensor is n : 1 + (m - n)*2
+                //range of x positions on required row (where y is absolute distance to sensor is n):
+                //s.x - (m-n) to s.x + (m-n)
+
+                int m = ManhattanDistance(sensorCoords, beaconCoords);
+                int n = Math.Abs(row - sensorCoords.y);
+
+                if (sensorCoords.y - m <= row && row <= sensorCoords.y + m)
                 {
-                    grid[sensorCoords] = 'S'; //this will add the value if the key doesn't already exist,
-                                              //or update the existing value if it does 
-                }
+                    if (beaconCoords.y == row) beaconPositions.Add(beaconCoords.x);
 
-                if (beaconCoords.y == row)
-                {
-                    grid.TryAdd(beaconCoords, 'B'); 
-                }
-
-                int manhattanDistance = ManhattanDistance(sensorCoords, beaconCoords);
-
-                if (sensorCoords.y - manhattanDistance <= row && row <= sensorCoords.y + manhattanDistance)
-                {
-                    MarkPositionsWithNoBeaconOnRow(grid, sensorCoords, manhattanDistance, row); 
-                }
-            }
-
-            return grid;
-        }
-
-        private static void MarkPositionsWithNoBeaconOnRow(Dictionary<(int x, int y), char> grid, (int x, int y) sensorCoords, int manhattanDistance, int row)
-        {
-            var permutations = GetPermutations(manhattanDistance);
-
-            foreach (var (x, y) in permutations)
-            {
-                for (int i = sensorCoords.x + Math.Sign(x); Math.Abs(i - sensorCoords.x) <= Math.Abs(x); i += x == 0 ? 1 : Math.Sign(x))
-                {
-                    for (int j = sensorCoords.y + Math.Sign(y); Math.Abs(j - sensorCoords.y) <= Math.Abs(y); j += y == 0 ? 1 : Math.Sign(y))
+                    for (int i = sensorCoords.x - (m - n); i <= sensorCoords.x + (m - n); i++)
                     {
-                        if (j == row) grid.TryAdd((x: i, y: j), '#');
+                        positionsWithNoBeacons.Add(i);
                     }
                 }
             }
-        }
 
-        private static int ManhattanDistance((int x, int y) sensorCoords, (int x, int y) beaconCoords)
-        {
-            return Math.Abs(beaconCoords.x - sensorCoords.x) + Math.Abs(beaconCoords.y - sensorCoords.y);
-        }
+            positionsWithNoBeacons.ExceptWith(beaconPositions);
 
-        private static HashSet<(int x, int y)> GetPermutations(int manhattanDistance)
-        {
-            var permutations = new HashSet<(int x, int y)>();
-
-            for (int i = 0; i <= manhattanDistance; i++)
-            {
-                permutations.Add((x: i, y: manhattanDistance - i));
-                permutations.Add((x: i, y: -(manhattanDistance - i)));
-                permutations.Add((x: -i, y: manhattanDistance - i));
-                permutations.Add((x: -i, y: -(manhattanDistance - i)));
-            }
-
-            return permutations;
-        }
-
-        public static int GetNumberOfPositionsWithoutBeaconsOnRow(string[] input, int row)
-        {
-            var grid = CreateGridFromInput(input, row);
-
-            return grid.Keys.Where(k => !grid[(k.x, k.y)].Equals('B')).Count();
+            return positionsWithNoBeacons;
         }
     }
 }
