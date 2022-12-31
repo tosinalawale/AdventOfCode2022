@@ -16,12 +16,12 @@
 
         public static int GetNumberOfPositionsWithoutBeaconsOnRow(string[] input, int row)
         {
-            var positionsWithNoBeacons = GetCellRangesWithNoBeacon(input, row);
+            var positionsWithNoBeacons = GetXPositionsWithNoBeacon(input, row);
 
             return positionsWithNoBeacons.Count;
         }
 
-        private static HashSet<int> GetCellRangesWithNoBeacon(string[] input, int row)
+        private static HashSet<int> GetXPositionsWithNoBeacon(string[] input, int row)
         {
             var beaconPositions = new HashSet<int>();
             var positionsWithNoBeacons = new HashSet<int>();
